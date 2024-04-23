@@ -2,7 +2,7 @@ from openai import OpenAI
 import streamlit as st
 import os
 
-
+###LOCAL COPY OF LIVE ENVIRONMENT. COPY CODE TO DEV VERSION ONCE TESTED
 # Setting page title and header
 st.set_page_config(page_title="The SEO Works AI Bot", 
                    page_icon="https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png", 
@@ -52,18 +52,18 @@ st.markdown('<div style="text-align: center; font-size:24px;"><strong>The SEO Wo
 # st.markdown('<div style="text-align: center; font-size:22px;">Use this app to access the best gpt model</div>', unsafe_allow_html=True)
 
 # Spacers for layout purposes
-st.write("#")
+# st.write("#")
 
-st.markdown(
-        """
-        <style>
-        .stMarkdownContainer p {
-            font-size: 20px;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+# st.markdown(
+#         """
+#         <style>
+#         .stMarkdownContainer p {
+#             font-size: 20px;
+#         }
+#         </style>
+#         """,
+#         unsafe_allow_html=True,
+#     )
 
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 # client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
@@ -75,14 +75,14 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
+    with st.chat_message(message["role"],avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png"):
         st.markdown(message["content"])
 
 
 if prompt := st.chat_input("Add you prompt here..."):
 #    try:
         st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
+        with st.chat_message("user",avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png" ):
             st.markdown(prompt)
 
         with st.chat_message("assistant", avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png" ):
