@@ -1,1 +1,7 @@
-OPENAI_API_KEY = "sk-qWLjyTeWONkH0FsQikMxT3BlbkFJZ04xi0VvFpmXXXXXXXX”
+[theme]
+base="light"
+primaryColor="#85bd41"
+# secondaryBackgroundColor="#85bd41"
+
+[client]
+toolbarMode = "minimal"
