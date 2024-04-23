@@ -13,3 +13,10 @@ html, body [class*="css"] {
     font-size: 22px;
     font-weight: 700;
 }
+.st-emotion-cache-1flajlm {
+    color: rgb(94, 133, 46);
+    margin: auto;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    min-width: 0px;
+}
