@@ -80,26 +80,26 @@ for message in st.session_state.messages:
 
 
 if prompt := st.chat_input("Add you prompt here..."):
-    try:
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
+#    try:
+st.session_state.messages.append({"role": "user", "content": prompt})
+with st.chat_message("user"):
+        st.markdown(prompt)
 
-        with st.chat_message("assistant", avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png" ):
-            message_placeholder = st.empty()
-            full_response = ""
-            for response in client.chat.completions.create(
-                model=st.session_state["openai_model"],
-                messages=[
-                    {"role": m["role"], "content": m["content"]}
-                    for m in st.session_state.messages
+with st.chat_message("assistant", avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png" ):
+        message_placeholder = st.empty()
+        full_response = ""
+        for response in client.chat.completions.create(
+        model=st.session_state["openai_model"],
+        messages=[
+                {"role": m["role"], "content": m["content"]}
+                for m in st.session_state.messages
                 ],
-                stream=True,
+        stream=True,
             ):
-                full_response += (response.choices[0].delta.content or "")
-                message_placeholder.markdown(full_response + "▌")
-            message_placeholder.markdown(full_response)
-        st.session_state.messages.append({"role": "assistant", "content": full_response})
-    except:
-        st.markdown('<div style="text-align: center; font-size:18px;">Apologies, the API is overloaded. Please call back later.</div>', unsafe_allow_html=True)
+        full_response += (response.choices[0].delta.content or "")
+        message_placeholder.markdown(full_response + "▌")
+        message_placeholder.markdown(full_response)
+st.session_state.messages.append({"role": "assistant", "content": full_response})#
+  #  except:
+st.markdown('<div style="text-align: center; font-size:18px;">Apologies, the API is overloaded. Please call back later.</div>', unsafe_allow_html=True)
 
