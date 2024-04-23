@@ -2,7 +2,7 @@ from openai import OpenAI
 import streamlit as st
 import os
 
-###LOCAL COPY OF LIVE ENVIRONMENT. COPY CODE TO DEV VERSION ONCE TESTED
+###LIVE VERSION
 # Setting page title and header
 st.set_page_config(page_title="The SEO Works AI Bot", 
                    page_icon="https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png", 
