@@ -80,7 +80,7 @@ for message in st.session_state.messages:
 
 
 if prompt := st.chat_input("Add you prompt here..."):
-#    try:
+    try:
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
@@ -100,6 +100,6 @@ if prompt := st.chat_input("Add you prompt here..."):
                 message_placeholder.markdown(full_response + "▌")
             message_placeholder.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": full_response})
-#    except:
+    except:
         st.markdown('<div style="text-align: center; font-size:18px;">Apologies, the API is overloaded. Please call back later.</div>', unsafe_allow_html=True)
 
