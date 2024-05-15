@@ -65,11 +65,18 @@ st.markdown('<div style="text-align: center; font-size:24px;"><strong>The SEO Wo
 #         unsafe_allow_html=True,
 #     )
 
+model = st.radio(
+    "Select a GPT model",
+    [ "gpt-4o","gpt-4-turbo"],
+    index=0,
+    horizontal=True
+)
+
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 # client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-4-turbo"
+    st.session_state["openai_model"] = model
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
