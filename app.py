@@ -6,7 +6,7 @@ import os
 # Setting page title and header
 st.set_page_config(page_title="The SEO Works AI Bot", 
                    page_icon="https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png", 
-                   layout="wide",initial_sidebar_state="collapsed")
+                   layout="wide",initial_sidebar_state="expanded")
 
 #Defines custom css file
 with open( "resources/style.css" ) as css:
