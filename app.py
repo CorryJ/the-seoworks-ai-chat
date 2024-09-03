@@ -50,15 +50,16 @@ with col3:
 
 st.markdown('<div style="text-align: center; font-size:24px;"><strong>The SEO Works AI Bot<strong></div>', unsafe_allow_html=True)
 
+with st.sidebar:
+    model = st.radio(
+        "Select a GPT model",
+        ["gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"],
+        index=0,
+        horizontal=True
+    )
+
 if st.sidebar.button("Clear Conversation"):
     st.session_state.messages = []
-    
-model = st.radio(
-    "Select a GPT model",
-    [ "gpt-4o","gpt-4-turbo","gpt-4","gpt-3.5-turbo"],
-    index=0,
-    horizontal=True
-)
 
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 # client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
