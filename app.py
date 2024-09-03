@@ -49,24 +49,8 @@ with col3:
 
 
 st.markdown('<div style="text-align: center; font-size:24px;"><strong>The SEO Works AI Bot<strong></div>', unsafe_allow_html=True)
-# st.markdown('<div style="text-align: center; font-size:22px;">Use this app to access the best gpt model</div>', unsafe_allow_html=True)
 
-# Spacers for layout purposes
-# st.write("#")
-
-# st.markdown(
-#         """
-#         <style>
-#         .stMarkdownContainer p {
-#             font-size: 20px;
-#         }
-#         </style>
-#         """,
-#         unsafe_allow_html=True,
-#     )
-
-# Clear conversation button
-if st.button("Clear Conversation"):
+if st.sidebar.button("Clear Conversation"):
     st.session_state.messages = []
     
 model = st.radio(

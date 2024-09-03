@@ -5,3 +5,4 @@ primaryColor="#85bd41"
 
 [client]
 toolbarMode = "minimal"
+showSidebarNavigation = true
