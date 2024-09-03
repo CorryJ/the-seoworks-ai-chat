@@ -65,6 +65,10 @@ st.markdown('<div style="text-align: center; font-size:24px;"><strong>The SEO Wo
 #         unsafe_allow_html=True,
 #     )
 
+# Clear conversation button
+if st.button("Clear Conversation"):
+    st.session_state.messages = []
+    
 model = st.radio(
     "Select a GPT model",
     [ "gpt-4o","gpt-4-turbo","gpt-4","gpt-3.5-turbo"],
