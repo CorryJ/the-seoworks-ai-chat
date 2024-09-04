@@ -71,17 +71,25 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 for message in st.session_state.messages:
-    with st.chat_message(message["role"],avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png"):
+    with st.chat_message(message["role"], avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png"):
         st.markdown(message["content"])
 
+        # Add a button to copy text to clipboard after each message
+        copy_text = message["content"]
+        copy_button_code = f"""
+            <button onclick="navigator.clipboard.writeText(`{copy_text}`)" style="padding: 5px 10px; margin-top: 10px;">
+                Copy Response
+            </button>
+        """
+        st.markdown(copy_button_code, unsafe_allow_html=True)
 
-if prompt := st.chat_input("Add you prompt here..."):
+if prompt := st.chat_input("Add your prompt here..."):
     try:
         st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user",avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png" ):
+        with st.chat_message("user", avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png"):
             st.markdown(prompt)
 
-        with st.chat_message("assistant", avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png" ):
+        with st.chat_message("assistant", avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png"):
             message_placeholder = st.empty()
             full_response = ""
             for response in client.chat.completions.create(
@@ -95,7 +103,18 @@ if prompt := st.chat_input("Add you prompt here..."):
                 full_response += (response.choices[0].delta.content or "")
                 message_placeholder.markdown(full_response + "▌")
             message_placeholder.markdown(full_response)
+        
         st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+        # Add a button to copy the assistant's response
+        copy_text = full_response
+        copy_button_code = f"""
+            <button onclick="navigator.clipboard.writeText(`{copy_text}`)" style="padding: 5px 10px; margin-top: 10px;">
+                Copy Response
+            </button>
+        """
+        st.markdown(copy_button_code, unsafe_allow_html=True)
+
     except:
         st.markdown('<div style="text-align: center; font-size:18px;">Apologies, the API is overloaded. Please call back later.</div>', unsafe_allow_html=True)
-
+        
