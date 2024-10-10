@@ -126,27 +126,6 @@ if prompt := st.chat_input("Add your prompt here..."):
             st.markdown(f"This response used the {model} model")
             st.markdown("Instructions used" if use_instructions == "Yes" else "Instructions not used")
 
-            if st.button("Copy Response"):
-                # Escape special characters in the full_response
-                escaped_response = full_response.replace('"', '\\"').replace('\n', '\\n')
-                
-                js_code = f"""
-                <script>
-                function copyToClipboard() {{
-                    const text = "{escaped_response}";
-                    navigator.clipboard.writeText(text).then(function() {{
-                        console.log('Copying to clipboard was successful!');
-                    }}, function(err) {{
-                        console.error('Could not copy text: ', err);
-                    }});
-                }}
-                copyToClipboard();
-                </script>
-                """
-                
-                html(js_code, height=0)
-                st.success("Response copied to clipboard!")
-
         except Exception as e:
             st.error(f'An error occurred: {str(e)}')
             st.markdown('<div style="text-align: center; font-size:18px;">Apologies, an error occurred. Please try again later.</div>', unsafe_allow_html=True)
