@@ -103,7 +103,7 @@ instructions = "1. Write in UK English at all times e.g. (e.g., humanise instead
 if prompt := st.chat_input("Add your prompt here..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user", avatar="https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png"):
-        st.markdown(prompt)
+        st.markdown(f"**{prompt}**")
 
     with st.chat_message("assistant", avatar="https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png"):
         message_placeholder = st.empty()
