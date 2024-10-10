@@ -100,66 +100,53 @@ instructions = "1. Write in UK English at all times e.g. (e.g., humanise instead
 2. Avoid jargon and unnecessarily complex word choices. 4. Clarity is crucial. Do not use emojis or exclamation marks. 3. You MUST not include any of the following words in the response:  {0}".format(bannedWord1)
 
 
-if prompt := st.chat_input("Add you prompt here..."):
+if prompt := st.chat_input("Add your prompt here..."):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user", avatar="https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png"):
+        st.markdown(prompt)
 
-#    try:
-    st.session_state.messages.append({"role": "user", "content": prompt })
-    with st.chat_message("user",avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png" ):
-            st.markdown(prompt)
+    with st.chat_message("assistant", avatar="https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png"):
+        message_placeholder = st.empty()
+        try:
+            with st.spinner("Waiting for response..."):
+                full_response = ""
+                for response in client.chat.completions.create(
+                    model=st.session_state["openai_model"],
+                    messages=[
+                        {"role": m["role"], "content": m["content"] + (instructions if use_instructions == "Yes" and m["role"] == "user" else "")}
+                        for m in st.session_state.messages
+                    ],
+                    stream=True,
+                ):
+                    full_response += (response.choices[0].delta.content or "")
+                    message_placeholder.markdown(full_response + "▌")
+                message_placeholder.markdown(full_response)
+            
+            st.session_state.messages.append({"role": "assistant", "content": full_response})
+            st.markdown(f"This response used the {model} model")
+            st.markdown("Instructions used" if use_instructions == "Yes" else "Instructions not used")
 
-    with st.chat_message("assistant", avatar = "https://www.seoworks.co.uk/wp-content/themes/seoworks/assets/images/fav.png" ):
-            message_placeholder = st.empty()
-            full_response = ""
+            if st.button("Copy Response"):
+                # Escape special characters in the full_response
+                escaped_response = full_response.replace('"', '\\"').replace('\n', '\\n')
+                
+                js_code = f"""
+                <script>
+                function copyToClipboard() {{
+                    const text = "{escaped_response}";
+                    navigator.clipboard.writeText(text).then(function() {{
+                        console.log('Copying to clipboard was successful!');
+                    }}, function(err) {{
+                        console.error('Could not copy text: ', err);
+                    }});
+                }}
+                copyToClipboard();
+                </script>
+                """
+                
+                html(js_code, height=0)
+                st.success("Response copied to clipboard!")
 
-# This part of the code sends the user message to to the API
-    try:
-        with st.spinner("Waiting for response..."):
-            full_response = ""
-            for response in client.chat.completions.create(
-                model=st.session_state["openai_model"],
-                messages=[
-                    {"role": m["role"], "content": m["content"] + (instructions if use_instructions == "Yes" and m["role"] == "user" else "")}
-                    for m in st.session_state.messages
-                ],
-                stream=True,
-            ):
-                full_response += (response.choices[0].delta.content or "")
-                message_placeholder.markdown(full_response + "▌")
-            message_placeholder.markdown(full_response)
-        
-        st.session_state.messages.append({"role": "assistant", "content": full_response})
-        st.markdown(f"This response used the {model} model")
-
-        if use_instructions == "Yes":
-            st.markdown("Instructions used")
-        else:
-            st.markdown("Instructions not used")
-
-        copy_button = st.button("Copy Response")
-
-    # JavaScript to copy text to clipboard
-        js_code = f"""
-        <script>
-        function copyToClipboard() {{
-            const text = `{full_response.replace("`", "\\`")}`;
-            navigator.clipboard.writeText(text).then(function() {{
-                console.log('Copying to clipboard was successful!');
-            }}, function(err) {{
-                console.error('Could not copy text: ', err);
-            }});
-        }}
-        </script>
-        """
-
-    # Inject JavaScript code
-        html(js_code, height=0)
-
-    # If copy button is clicked, execute JavaScript function
-        if copy_button:
-            html('<script>copyToClipboard();</script>', height=0)
-            st.success("Response copied to clipboard!")
-
-    except Exception as e:
+        except Exception as e:
             st.error(f'An error occurred: {str(e)}')
             st.markdown('<div style="text-align: center; font-size:18px;">Apologies, an error occurred. Please try again later.</div>', unsafe_allow_html=True)
-
