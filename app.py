@@ -54,7 +54,7 @@ st.markdown('<div style="text-align: center; font-size:24px;"><strong>The SEO Wo
 with st.sidebar:
     model = st.radio(
         "**Select a GPT model:**",
-        ["gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"],
+        ["gpt-4.1","gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"],
         index=0,
         horizontal=True,
     )
